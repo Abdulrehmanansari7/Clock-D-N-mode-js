@@ -1,58 +1,36 @@
-function clock() {
-  var monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "March",
-    "May",
-    "June",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+function updateClock() {
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
-  var dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
+  const dayNames = [
+    "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
   ];
 
-  var today = new Date();
+  const now = new Date();
+  
+  // Format Date
+  document.getElementById("Date").innerText = `${dayNames[now.getDay()]} ${now.getDate()} ${monthNames[now.getMonth()]} ${now.getFullYear()}`;
 
-  document.getElementById("Date").innerHTML =
-    dayNames[today.getDay()] +
-    " " +
-    today.getDate() +
-    " " +
-    monthNames[today.getMonth()] +
-    " " +
-    today.getFullYear();
+  // Format Time
+  let hours = now.getHours();
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  const period = hours < 12 ? "AM" : "PM";
+  hours = (hours % 12 || 12).toString().padStart(2, '0'); // Convert to 12-hour format
 
-  var h = today.getHours();
-  var m = today.getMinutes();
-  var s = today.getSeconds();
-  var day = h < 12 ? "AM" : "PM";
-
-  h = h < 10 ? "0" + h : h;
-  m = m < 10 ? "0" + m : m;
-  s = s < 10 ? "0" + s : s;
-
-  document.getElementById("hours").innerHTML = h;
-  document.getElementById("min").innerHTML = m;
-  document.getElementById("sec").innerHTML = s;
+  document.getElementById("hours").innerText = hours;
+  document.getElementById("min").innerText = minutes;
+  document.getElementById("sec").innerText = seconds;
 }
 
-document.getElementById("toggleButton").addEventListener("click", function () {
-    document.body.classList.toggle("day-mode");
-    document.body.classList.toggle("night-mode");
-  });
-  
-  // Set initial mode as night-mode
-  document.body.classList.add("night-mode");
-var inter = setInterval(clock, 400);
+document.getElementById("toggleButton").addEventListener("click", () => {
+  document.body.classList.toggle("day-mode");
+  document.body.classList.toggle("night-mode");
+});
+
+// Set initial mode to night-mode
+document.body.classList.add("night-mode");
+
+// Update clock every second
+setInterval(updateClock, 1000);
